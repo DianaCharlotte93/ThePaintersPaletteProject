@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ThePaintersPaletteProject;
+using ThePaintersPaletteProject.Clients;
 using ThePaintersPaletteProject.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,15 +21,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IHomeRepository, HomeRepository>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
 builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
-// paypal client configuration
+builder.Services.AddTransient<ICheckoutRepository, CheckOutRepository>();
 
-//builder.Services.AddSingleton(x =>
-//    new PaypalClient(
-//        builder.Configuration["PayPalOptions:ClientId"],
-//        builder.Configuration["PayPalOptions:ClientSecret"],
-//        builder.Configuration["PayPalOptions:Mode"]
-//    )
-//);
+builder.Services.AddSingleton(x =>
+    new PaypalClient(
+        builder.Configuration["PayPalOptions:ClientId"],
+        builder.Configuration["PayPalOptions:ClientSecret"],
+        builder.Configuration["PayPalOptions:Mode"]
+    )
+);
 
 builder.Services.AddScoped<CartDetail>();
 builder.Services.AddScoped<ShoppingCart>();

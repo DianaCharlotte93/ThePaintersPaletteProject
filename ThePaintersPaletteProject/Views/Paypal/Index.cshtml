@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="width:90%;margin:auto" class="mt-2">
+
+    <h5>My Cart</h5>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Art Title</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Unit Price(INR)</th>
+            <th>Total Price</th>
+            <th>Action</th>
+        </tr>
+
+
+        <tr>
+            <td>Art Title</td>
+            <td>     
+
+            </td>
+
+        </tr>
+
+    </table>
+    <div class="my-2">
+        <h5>Total(INR): </h5>
+    </div>
+
+
+</div>
+﻿<div class="text-center">
+    <div id="paypal-button-container"></div>
+</div>
+
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.ClientId"></script>
+
+    <script>
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'white',
+                shape: 'pill',
+                tagline: 'false'
+            },
+            createOrder: (data, actions) => {
+                return fetch("@Url.Action("Order")", {
+                    method: "post",
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw error; });
+                    }
+
+                    return response.json();
+                }).then((order) => order.id)
+                    .catch(error => alert(error.message));
+            },
+            onApprove: (data, actions) => {
+                return fetch(`@Url.Action("Capture")?orderId=${data.orderID}`, {
+                    method: "post",
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw error; });
+                    }
+
+                    window.location.href = "@Url.Action("Success")";
+                }).catch(error => alert(error.message));
+            }
+        }).render('#paypal-button-container');
+    </script>
+}
