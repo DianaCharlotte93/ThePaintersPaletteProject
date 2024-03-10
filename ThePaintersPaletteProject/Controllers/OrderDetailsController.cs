@@ -62,7 +62,7 @@ namespace ThePaintersPaletteProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserId", orderDetail.OrderId);
-            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtId);
+            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtPieceId);
             return View(orderDetail);
         }
 
@@ -79,7 +79,7 @@ namespace ThePaintersPaletteProject.Controllers
                 return NotFound();
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserId", orderDetail.OrderId);
-            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtId);
+            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtPieceId);
             return View(orderDetail);
         }
 
@@ -113,7 +113,7 @@ namespace ThePaintersPaletteProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserId", orderDetail.OrderId);
-            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtId);
+            ViewData["ArtId"] = new SelectList(_context.ArtPieces, "ArtId", "ArtDescription", orderDetail.ArtPieceId);
             return View(orderDetail);
         }
 

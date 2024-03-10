@@ -37,7 +37,7 @@ namespace ThePaintersPaletteProject.Repositories
                 _db.SaveChanges();
 
                 var cartItem = _db.CartDetails
-                                  .FirstOrDefault(a => a.ShoppingCartId == cart.ShoppingCartId && a.ArtId == artId);
+                                  .FirstOrDefault(a => a.ShoppingCartId == cart.ShoppingCartId && a.ArtPieceId == artId);
                 if (cartItem is not null)
                 {
                     cartItem.Quantity += qty;
@@ -47,7 +47,7 @@ namespace ThePaintersPaletteProject.Repositories
                     var art = _db.ArtPieces.Find(artId);
                     cartItem = new CartDetail
                     {
-                        ArtId = artId,
+                        ArtPieceId = art.ArtId,
                         ShoppingCartId = cart.ShoppingCartId,
                         Quantity = qty,
                         UnitPrice = art.Price  
@@ -78,7 +78,7 @@ namespace ThePaintersPaletteProject.Repositories
                     throw new Exception("Invalid cart");
 
                 var cartItem = _db.CartDetails
-                                  .FirstOrDefault(a => a.ShoppingCartId == cart.ShoppingCartId && a.ArtId == artId);
+                                  .FirstOrDefault(a => a.ShoppingCartId == cart.ShoppingCartId && a.ArtPieceId == artId);
                 if (cartItem is null)
                     throw new Exception("Not items in cart");
                 else if (cartItem.Quantity == 1)
@@ -103,6 +103,7 @@ namespace ThePaintersPaletteProject.Repositories
             var shoppingCart = await _db.ShoppingCarts
                                   .Include(a => a.CartDetails)
                                   .ThenInclude(a => a.ArtPiece)
+                                  .ThenInclude(a => a.Category)
                                   .Where(a => a.UserId == userId).FirstOrDefaultAsync();
             return shoppingCart;
 
@@ -155,7 +156,7 @@ namespace ThePaintersPaletteProject.Repositories
                 {
                     var orderDetail = new OrderDetail
                     {
-                        ArtId = item.ArtId,
+                        ArtPieceId = item.ArtPieceId,
                         OrderId = order.OrderId,
                         Quantity = item.Quantity,
                         UnitPrice = item.UnitPrice

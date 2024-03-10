@@ -11,7 +11,7 @@ namespace ThePaintersPaletteProject.Models
         [Required]
         public int OrderId { get; set; }
         [Required]
-        public int ArtId { get; set; }
+        public int ArtPieceId { get; set; }
         [Required]
         public int Quantity { get; set; }
         [Required]
