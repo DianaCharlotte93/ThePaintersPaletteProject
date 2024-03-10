@@ -1,6 +1,6 @@
 ﻿namespace ThePaintersPaletteProject.Models.DTO
 {
-    public class TutorialVideoDisplayModel
+    public class VideoDisplayModel
     {
         public IEnumerable<Video> Videos { get; set; }
         public IEnumerable<VideoCategory> VideoCategories { get; set; }

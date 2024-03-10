@@ -1,0 +1,68 @@
+﻿@model VideoDisplayModel
+@{
+    ViewData["Title"] = "TutorialVideos";
+}
+<div class="my-2">
+    <form asp-action="TutorialVideos" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="col-12">
+            <label class="visually-hidden" for="videoCategoryId">Tutorials</label>
+            <select class="form-select" id="videoCategoryId" name="videoCategoryId">
+                <option selected>Category</option>
+                @foreach (var videoCategory in Model.VideoCategories)
+                {
+                    <option selected="@(videoCategory.VideoCategoryId == Model.VideoCategoryId)" value="@videoCategory.VideoCategoryId">@videoCategory.VideoCategoryName</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12">
+            <label class="visually-hidden" for="sterm">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input type="text" class="form-control" value="@Model.STerm" id="sterm" name="sterm" placeholder="Search by title">
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/Home/Index" class="btn btn-dark">Reset</a>
+        </div>
+    </form>
+</div>
+
+<div class="w-100 mt-4 d-flex flex-wrap">
+    @if (Model.Videos != null && Model.Videos.Any())
+    {
+        foreach (var video in Model.Videos)
+        {
+            <div class="card mx-3 mb-4" style="width: 300;">
+                @if (string.IsNullOrEmpty(video.Image))
+                {
+                    <img style="width:100%;height:180px" src="/Images/NoImage.png" class="card-img-top" alt="...">
+
+                }
+                else
+                {
+                    <iframe width="300" height="150" src="@video.Image" title="YouTube video player"
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+                            picture-in-picture; web-share" allowfullscreen></iframe>
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@video.VideoName</h5>
+                    <p class="card-text">
+                        @{
+                            var categoryName = Model.VideoCategories
+                            .Where(category => category.VideoCategoryId == video.VideoCategoryId)
+                            .FirstOrDefault()
+                            ?.VideoCategoryName;
+                        }
+                        <b>Category: </b>@categoryName <br />
+                        <b>Description: </b>@video.VideoDescription <br />
+                    </p>
+                </div>
+            </div>
+        }
+
+    }
+
+</div>
