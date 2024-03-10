@@ -13,14 +13,35 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-      .AddEntityFrameworkStores<ApplicationDbContext>()
+   .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IHomeRepository, HomeRepository>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
-//builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
+builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
+// paypal client configuration
+
+//builder.Services.AddSingleton(x =>
+//    new PaypalClient(
+//        builder.Configuration["PayPalOptions:ClientId"],
+//        builder.Configuration["PayPalOptions:ClientSecret"],
+//        builder.Configuration["PayPalOptions:Mode"]
+//    )
+//);
+
+builder.Services.AddScoped<CartDetail>();
+builder.Services.AddScoped<ShoppingCart>();
+
+
+
+
 var app = builder.Build();
+// Uncomment it when you run the project first time, It will registered an admin
+//using (var scope = app.Services.CreateScope())
+//{
+//    await DbSeeder.SeedDefaultData(scope.ServiceProvider);
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

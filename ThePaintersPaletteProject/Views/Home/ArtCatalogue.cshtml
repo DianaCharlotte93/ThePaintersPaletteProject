@@ -63,6 +63,7 @@
             var usernameEl = document.getElementById("username");
             if (usernameEl == null) {
                 window.location.href = "/Identity/Account/Login";
+                return;
             }
             try {
                 var response = await fetch(`/CartDetails/AddItem?artId=${artId}`);
