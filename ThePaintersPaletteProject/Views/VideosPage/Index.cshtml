@@ -3,7 +3,8 @@
     ViewData["Title"] = "TutorialVideos";
 }
 <div class="my-2">
-    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
+    <h1 style="font-size:25px; font-weight:300; text-decoration:underline">Please enter the name or category of the tutorial you are looking for:</h1>
+    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center" style="float:left">
         <div class="col-12">
             <label class="visually-hidden" for="videoCategoryId">Tutorials</label>
             <select class="form-select" id="videoCategoryId" name="videoCategoryId">
@@ -35,7 +36,7 @@
     {
         foreach (var video in Model.Videos)
         {
-            <div class="card mx-3 mb-4" style="width: 300;">
+            <div class="card mx-3 mb-4" style="width: auto; margin-top:30px;">
                 @if (string.IsNullOrEmpty(video.Image))
                 {
                     <img style="width:100%;height:180px" src="/Images/NoImage.png" class="card-img-top" alt="...">
@@ -43,12 +44,12 @@
                 }
                 else
                 {
-                    <iframe width="300" height="150" src="@video.Image" title="YouTube video player"
+                    <iframe width="750" height="425" src="@video.Image" title="YouTube video player"
                             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
                             picture-in-picture; web-share" allowfullscreen></iframe>
                 }
                 <div class="card-body">
-                    <h5 class="card-title">@video.VideoName</h5>
+                    <h5 class="card-title" style="font-size: 40px;font-weight:300; text-align:center">@video.VideoName</h5>
                     <p class="card-text">
                         @{
                             var categoryName = Model.VideoCategories
@@ -56,8 +57,10 @@
                             .FirstOrDefault()
                             ?.VideoCategoryName;
                         }
-                        <b>Category: </b>@categoryName <br />
-                        <b>Description: </b>@video.VideoDescription <br />
+                        <b style="font-size: 25px;font-weight:200;">Category: </b>
+                        <b style="font-size: 20px;font-weight:200;">@categoryName</b> <br />
+                        <b style="font-size: 25px;font-weight:200;">Description: </b>
+                        <b style="font-size: 20px;font-weight:200;">@video.VideoDescription</b> <br />
                     </p>
                 </div>
             </div>
